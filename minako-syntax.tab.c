@@ -109,10 +109,10 @@ extern int yydebug;
 /* "%code requires" blocks.  */
 #line 4 "minako-syntax.y"
 
-	#include <stdio.h>
-	
-	extern void yyerror(const char*);
-	extern FILE *yyin;
+    #include <stdio.h>
+    
+    extern void yyerror(const char*);
+    extern FILE *yyin;
 
 #line 118 "minako-syntax.tab.c"
 
@@ -156,9 +156,9 @@ union YYSTYPE
 {
 #line 16 "minako-syntax.y"
 
-	char *string;
-	double floatValue;
-	int intValue;
+    char *string;
+    double floatValue;
+    int intValue;
 
 #line 164 "minako-syntax.tab.c"
 
@@ -179,8 +179,8 @@ int yyparse (void);
 /* Unqualified %code blocks.  */
 #line 11 "minako-syntax.y"
 
-	extern int yylex();
-	extern int yylineno;
+    extern int yylex();
+    extern int yylineno;
 
 #line 186 "minako-syntax.tab.c"
 
@@ -1694,20 +1694,20 @@ yyreturn:
 
 
 int main(int argc, char *argv[]) {
-	yydebug = 0;
+    yydebug = 0;
 
-	if (argc < 2) {
-		yyin = stdin;
-	} else {
-		yyin = fopen(argv[1], "r");
-		if (yyin == 0) {
-			printf("ERROR: Datei %s nicht gefunden", argv[1]);
-		}
-	}
+    if (argc < 2) {
+        yyin = stdin;
+    } else {
+        yyin = fopen(argv[1], "r");
+        if (yyin == 0) {
+            printf("ERROR: Datei %s nicht gefunden", argv[1]);
+        }
+    }
 
-	return yyparse();
+    return yyparse();
 }
 
 void yyerror(const char *msg) {
-	fprintf(stderr, "Line %d: %s\n", yylineno, msg);
+    fprintf(stderr, "Line %d: %s\n", yylineno, msg);
 }

@@ -2,21 +2,21 @@
 %define parse.trace
 
 %code requires {
-	#include <stdio.h>
-	
-	extern void yyerror(const char*);
-	extern FILE *yyin;
+    #include <stdio.h>
+    
+    extern void yyerror(const char*);
+    extern FILE *yyin;
 }
 
 %code {
-	extern int yylex();
-	extern int yylineno;
+    extern int yylex();
+    extern int yylineno;
 }
 
 %union {
-	char *string;
-	double floatValue;
-	int intValue;
+    char *string;
+    double floatValue;
+    int intValue;
 }
 
 %token AND           "&&"
@@ -57,109 +57,109 @@
 %%
 
 program: programstart
-	;
+    ;
 
 programstart:	  	/* EMPTY */
-					| programstart declassignment ';' 
-					| programstart functiondefinition 
-	;
+                    | programstart declassignment ';' 
+                    | programstart functiondefinition 
+    ;
 
 functiondefinition: type id '(' ')' '{' statementlist '}'	  
-					| type id '('  parameterlist ')' '{' statementlist '}'
-	;
+                    | type id '('  parameterlist ')' '{' statementlist '}'
+    ;
 
 parameterlist:		type id    
-					| parameterlist ',' type id 
-	;
+                    | parameterlist ',' type id 
+    ;
 
 functioncall: 		id '('  ')'		
-					| id '(' multiassignment ')'			
-	;
+                    | id '(' multiassignment ')'			
+    ;
 
 multiassignment: 	assignment
-					| multiassignment ',' assignment
-	;
+                    | multiassignment ',' assignment
+    ;
 
 statementlist:		/* EMPTY */
-					| statementlist statblock					//umgeformt, da Block == statblock 
-	;
+                    | statementlist statblock					//umgeformt, da Block == statblock 
+    ;
 
 
 statement:  		ifstatement
                     | forstatement
-            	    | whilestatement
-                  	| returnstatement ';'
+                    | whilestatement
+                      | returnstatement ';'
                     | dowhilestatement ';'
-        	        | printf ';'
+                    | printf ';'
                     | declassignment ';'
                     | statassignment ';'
                     | functioncall ';'
-	;
+    ;
 
 statblock:			'{' statementlist '}'
                     | statement				
-	;
-				
+    ;
+                
 ifstatement:	 	KW_IF '(' assignment ')' statblock  	
-					| KW_IF '(' assignment ')' statblock  KW_ELSE statblock  
-	;
+                    | KW_IF '(' assignment ')' statblock  KW_ELSE statblock  
+    ;
 
 forstatement:  		KW_FOR  '(' statassignment  ';' expr ';' statassignment ')' statblock
-					| KW_FOR  '(' declassignment ';' expr ';' statassignment ')' statblock
-	;
+                    | KW_FOR  '(' declassignment ';' expr ';' statassignment ')' statblock
+    ;
 
 dowhilestatement: 	KW_DO statblock KW_WHILE '(' assignment ')'
-	;
+    ;
 
 whilestatement: 	KW_WHILE '(' assignment ')' statblock
-	;
+    ;
 
 returnstatement: 	KW_RETURN
-					| KW_RETURN assignment
-	;
+                    | KW_RETURN assignment
+    ;
 
 printf:				KW_PRINTF '(' assignment')'
-					| KW_PRINTF '('CONST_STRING ')'
-	;
+                    | KW_PRINTF '('CONST_STRING ')'
+    ;
 
 declassignment: 	type id 
-					| type id  '=' assignment 
-	;
+                    | type id  '=' assignment 
+    ;
 
 statassignment: 	id '=' assignment 
-	; 
+    ; 
 
 assignment: 		statassignment 						// umgeformte Grammatik anstelle von -> id '=' assignment 
                     | expr
-	;
+    ;
 
 expr: 				simpexpr 
-					| simpexpr EQ simpexpr 
-					| simpexpr NEQ simpexpr 
-					| simpexpr LEQ simpexpr 
-					| simpexpr GEQ simpexpr 
-					| simpexpr LSS simpexpr 
-					| simpexpr GRT simpexpr 
-	;
+                    | simpexpr EQ simpexpr 
+                    | simpexpr NEQ simpexpr 
+                    | simpexpr LEQ simpexpr 
+                    | simpexpr GEQ simpexpr 
+                    | simpexpr LSS simpexpr 
+                    | simpexpr GRT simpexpr 
+    ;
 
 simpexpr: 			'-' term extraterm
-					| term extraterm
-	;
+                    | term extraterm
+    ;
 
 extraterm: 			/* EMPTY */
-					| extraterm '+' term
-					| extraterm '-' term
-					| extraterm OR term
-	;
+                    | extraterm '+' term
+                    | extraterm '-' term
+                    | extraterm OR term
+    ;
 
 term: 				factor termneu
-	;
+    ;
 
 termneu: 			/* EMPTY */
-					| termneu '*' factor
-					| termneu '/' factor 
-					| termneu AND factor
-	;
+                    | termneu '*' factor
+                    | termneu '/' factor 
+                    | termneu AND factor
+    ;
 
 factor: 			CONST_INT
                     | CONST_FLOAT
@@ -167,34 +167,34 @@ factor: 			CONST_INT
                     | functioncall
                     | id
                     | '(' assignment ')'
-	;
+    ;
 
 type: 				KW_BOOLEAN
                     | KW_FLOAT
                     | KW_INT
                     | KW_VOID
-	;
+    ;
 
 id: 				ID
-	;
+    ;
 
 %%
 
 int main(int argc, char *argv[]) {
-	yydebug = 0;
+    yydebug = 0;
 
-	if (argc < 2) {
-		yyin = stdin;
-	} else {
-		yyin = fopen(argv[1], "r");
-		if (yyin == 0) {
-			printf("ERROR: Datei %s nicht gefunden", argv[1]);
-		}
-	}
+    if (argc < 2) {
+        yyin = stdin;
+    } else {
+        yyin = fopen(argv[1], "r");
+        if (yyin == 0) {
+            printf("ERROR: Datei %s nicht gefunden", argv[1]);
+        }
+    }
 
-	return yyparse();
+    return yyparse();
 }
 
 void yyerror(const char *msg) {
-	fprintf(stderr, "Line %d: %s\n", yylineno, msg);
+    fprintf(stderr, "Line %d: %s\n", yylineno, msg);
 }

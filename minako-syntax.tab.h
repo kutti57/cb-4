@@ -46,10 +46,10 @@ extern int yydebug;
 /* "%code requires" blocks.  */
 #line 4 "minako-syntax.y"
 
-	#include <stdio.h>
-	
-	extern void yyerror(const char*);
-	extern FILE *yyin;
+    #include <stdio.h>
+    
+    extern void yyerror(const char*);
+    extern FILE *yyin;
 
 #line 55 "minako-syntax.tab.h"
 
@@ -93,9 +93,9 @@ union YYSTYPE
 {
 #line 16 "minako-syntax.y"
 
-	char *string;
-	double floatValue;
-	int intValue;
+    char *string;
+    double floatValue;
+    int intValue;
 
 #line 101 "minako-syntax.tab.h"
 
