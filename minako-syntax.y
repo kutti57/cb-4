@@ -59,7 +59,7 @@
 program: programstart
     ;
 
-programstart:	  	/* EMPTY */
+programstart:       /* EMPTY */
                     | programstart declassignment ';' 
                     | programstart functiondefinition 
     ;
@@ -68,27 +68,27 @@ functiondefinition: type id '(' ')' '{' statementlist '}'
                     | type id '('  parameterlist ')' '{' statementlist '}'
     ;
 
-parameterlist:		type id    
+parameterlist:      type id    
                     | parameterlist ',' type id 
     ;
 
-functioncall: 		id '('  ')'		
+functioncall:       id '('  ')'		
                     | id '(' multiassignment ')'			
     ;
 
-multiassignment: 	assignment
+multiassignment:    assignment
                     | multiassignment ',' assignment
     ;
 
-statementlist:		/* EMPTY */
-                    | statementlist statblock					//umgeformt, da Block == statblock 
+statementlist:      /* EMPTY */
+                    | statementlist statblock                      //umgeformt, da Block == statblock 
     ;
 
 
-statement:  		ifstatement
+statement:          ifstatement
                     | forstatement
                     | whilestatement
-                      | returnstatement ';'
+                    | returnstatement ';'
                     | dowhilestatement ';'
                     | printf ';'
                     | declassignment ';'
@@ -96,44 +96,44 @@ statement:  		ifstatement
                     | functioncall ';'
     ;
 
-statblock:			'{' statementlist '}'
+statblock:          '{' statementlist '}'
                     | statement				
     ;
                 
-ifstatement:	 	KW_IF '(' assignment ')' statblock  	
+ifstatement:        KW_IF '(' assignment ')' statblock  	
                     | KW_IF '(' assignment ')' statblock  KW_ELSE statblock  
     ;
 
-forstatement:  		KW_FOR  '(' statassignment  ';' expr ';' statassignment ')' statblock
+forstatement:       KW_FOR  '(' statassignment  ';' expr ';' statassignment ')' statblock
                     | KW_FOR  '(' declassignment ';' expr ';' statassignment ')' statblock
     ;
 
-dowhilestatement: 	KW_DO statblock KW_WHILE '(' assignment ')'
+dowhilestatement:   KW_DO statblock KW_WHILE '(' assignment ')'
     ;
 
-whilestatement: 	KW_WHILE '(' assignment ')' statblock
+whilestatement:     KW_WHILE '(' assignment ')' statblock
     ;
 
-returnstatement: 	KW_RETURN
+returnstatement:    KW_RETURN
                     | KW_RETURN assignment
     ;
 
-printf:				KW_PRINTF '(' assignment')'
+printf:             KW_PRINTF '(' assignment')'
                     | KW_PRINTF '('CONST_STRING ')'
     ;
 
-declassignment: 	type id 
+declassignment:     type id 
                     | type id  '=' assignment 
     ;
 
-statassignment: 	id '=' assignment 
+statassignment:     id '=' assignment 
     ; 
 
-assignment: 		statassignment 						// umgeformte Grammatik anstelle von -> id '=' assignment 
+assignment:         statassignment                     // umgeformte Grammatik anstelle von -> id '=' assignment 
                     | expr
     ;
 
-expr: 				simpexpr 
+expr:               simpexpr 
                     | simpexpr EQ simpexpr 
                     | simpexpr NEQ simpexpr 
                     | simpexpr LEQ simpexpr 
@@ -142,26 +142,26 @@ expr: 				simpexpr
                     | simpexpr GRT simpexpr 
     ;
 
-simpexpr: 			'-' term extraterm
+simpexpr:           '-' term extraterm
                     | term extraterm
     ;
 
-extraterm: 			/* EMPTY */
+extraterm:          /* EMPTY */
                     | extraterm '+' term
                     | extraterm '-' term
                     | extraterm OR term
     ;
 
-term: 				factor termneu
+term:               factor termneu
     ;
 
-termneu: 			/* EMPTY */
+termneu:            /* EMPTY */
                     | termneu '*' factor
                     | termneu '/' factor 
                     | termneu AND factor
     ;
 
-factor: 			CONST_INT
+factor:             CONST_INT
                     | CONST_FLOAT
                     | CONST_BOOLEAN
                     | functioncall
@@ -169,13 +169,13 @@ factor: 			CONST_INT
                     | '(' assignment ')'
     ;
 
-type: 				KW_BOOLEAN
+type:               KW_BOOLEAN
                     | KW_FLOAT
                     | KW_INT
                     | KW_VOID
     ;
 
-id: 				ID
+id:                 ID
     ;
 
 %%
